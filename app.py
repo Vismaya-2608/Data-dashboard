@@ -19,7 +19,7 @@ if sidebar_option == "Data Summary":
     tab1, tab2 = st.tabs(["Preview", "Summary"])
     with tab1:
         sample = "All_DataFrames.xlsx"
-        sample_df = pd.read_csv(sample)
+        sample_df = pd.read_excel(sample)
         st.dataframe(sample_df)
 
 
