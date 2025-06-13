@@ -17,7 +17,7 @@ sidebar_option = st.sidebar.radio("Choose View", [
 if sidebar_option == "Data Summary":
     st.subheader("📄 Summary of all data")
     tab1, tab2 = st.tabs(["Preview", "Summary"])
-      with tab1:
+    with tab1:
         sample = "All_DataFrames.xlsx"
         sample_df = pd.read_csv(sample)
         st.dataframe(sample_df)
