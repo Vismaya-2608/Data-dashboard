@@ -8,7 +8,8 @@ st.sidebar.title("Additional_data")
 
 
 # Read the Excel file
-Preview,Alldata,Datasummary,Charts = st.tabs(["Preview","Quick Summary","Data Summary,"Charts"])
+Preview, Alldata, Datasummary, Charts = st.tabs(["Preview", "Quick Summary", "Data Summary", "Charts"])
+
 with Preview:
   excel_file_path = 'All_DataFrames.xlsx'
   xls = pd.ExcelFile(excel_file_path)
