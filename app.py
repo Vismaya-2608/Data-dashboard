@@ -1,32 +1,47 @@
+
 import streamlit as st
-import streamlit.components.v1 as components
-import os
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import numpy as np
 
-st.set_page_config(layout="wide")
-#st.markdown("Data Summary of New Files")
-sidebar_option = st.sidebar.radio("Choose View", [
-    "Data Summary",
-    "Univariate analysis",
-])
-# --- View 1: Data Summary ---
-if sidebar_option == "Data Summary":
-    st.subheader("📄 Summary of all data")
-    tab1, tab2 = st.tabs(["Preview", "Summary"])
-    with tab1:
-        excel_file = "All_DataFrames.xlsx"
-        all_sheets = pd.read_excel(excel_file, sheet_name=None)  # Returns a dict of {sheet_name: dataframe}
-        # Get list of sheet names for dropdown
-sheet_names = list(all_sheets.keys())
-# Dropdown to select sheet (cat_col)
-selected_sheet = st.selectbox("Select a sheet to display:", sheet_names)
-# Display the selected sheet as dataframe
-if selected_sheet:
-    df = all_sheets[selected_sheet]
-    st.write(f"### Data from Sheet: {selected_sheet}")
-    st.dataframe(df)
+st.set_page_config(page_title="Additional Data Analysis", layout="wide")
 
+st.sidebar.title("Additional_data")
+
+
+# Read the Excel file
+Preview,Alldata,Datasummary = st.tabs(["Preview","Quick Summary","Data Summary"])
+with Preview:
+  excel_file_path = 'All_DataFrames.xlsx'
+  xls = pd.ExcelFile(excel_file_path)
+  sheet_names = xls.sheet_names
+  sheet = st.selectbox("Select Data file", sheet_names)
+
+  # Read selected sheet
+  df = pd.read_excel(excel_file_path, sheet_name=sheet)
+
+  # Display DataFrame
+  st.dataframe(df, use_container_width=True)
+  
+with Alldata:
+  excel_file_path = "Quick_data_summary.xlsx"
+  xls = pd.ExcelFile(excel_file_path)
+  #sheet_names = xls.sheet_names
+  #sheet = st.selectbox("Select sheet", sheet_names)
+
+  # Read selected sheet
+  df = pd.read_excel(excel_file_path, sheet_name=0)
+  #st.success(f"Showing data from '{sheet}'")
+ 
+  # Display DataFrame
+  st.dataframe(df, use_container_width=True)
+  
+with Datasummary:
+  excel_file_path = 'Data_Summaries.xlsx'
+  xls = pd.ExcelFile(excel_file_path)
+  sheet_names = xls.sheet_names
+  sheet = st.selectbox("Select Data file", sheet_names)
+
+  # Read selected sheet
+  df = pd.read_excel(excel_file_path, sheet_name=sheet)
+
+  # Display DataFrame
+  st.dataframe(df, use_container_width=True)
