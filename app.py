@@ -49,10 +49,10 @@ with Datasummary:
   st.dataframe(df, use_container_width=True)
 
 with Charts:
-    st.title("Time Series Chart from Local Excel File")
+    st.title("Categorical Distribution Over Years")
 
     # Step 1: Read Excel file from disk
-    excel_file_path = "Dsc_Average_Construction_Materi.xlsx"  # Change this to your actual file path
+    excel_file_path = "Dsc_Average_Construction_Materi.xlsx"  # Adjust the path as needed
     df = pd.read_excel(excel_file_path)
 
     # Step 2: Show data preview
@@ -67,16 +67,28 @@ with Charts:
         st.error("No column with name containing 'year' found.")
         st.stop()
 
-    # Step 4: Select Y-axis column
-    numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
-    y_col = st.selectbox("Select column for Y-axis", options=[col for col in numeric_columns if col != year_col])
+    # Step 4: Detect categorical columns
+    cat_columns = df.select_dtypes(include=['object', 'category']).columns.tolist()
+    if not cat_columns:
+        st.error("No categorical columns found in the dataset.")
+        st.stop()
 
-    # Step 5: Plot the time series chart
-    if y_col:
-        fig, ax = plt.subplots()
-        ax.plot(df[year_col], df[y_col], marker='o')
-        ax.set_xlabel(year_col)
-        ax.set_ylabel(y_col)
-        ax.set_title(f"Time Series: {y_col} over {year_col}")
-        ax.grid(True)
-        st.pyplot(fig)
+    # Step 5: Select a categorical column for analysis
+    selected_cat_col = st.selectbox("Select categorical column for Y-axis (distribution)", options=cat_columns)
+
+    # Step 6: Group and count occurrences
+    group_df = df.groupby([year_col, selected_cat_col]).size().reset_index(name='Count')
+
+    # Step 7: Pivot the table for plotting
+    pivot_df = group_df.pivot(index=year_col, columns=selected_cat_col, values='Count').fillna(0)
+
+    # Step 8: Plot stacked bar chart
+    st.subheader(f"Distribution of '{selected_cat_col}' Over Years")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    pivot_df.plot(kind='bar', stacked=True, ax=ax)
+    ax.set_xlabel(year_col)
+    ax.set_ylabel("Count")
+    ax.set_title(f"Distribution of {selected_cat_col} by {year_col}")
+    ax.legend(title=selected_cat_col, bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.grid(True)
+    st.pyplot(fig)
