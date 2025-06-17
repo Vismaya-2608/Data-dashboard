@@ -89,7 +89,7 @@ elif main_tab == "📈 Chart Visualization":
                 categorical_columns + ['year'],  # Add 'year' explicitly if it's not auto-detected
                 key="bar_x"
             )
-            )
+            
             
             value_col = st.sidebar.selectbox(
                 "Select Numeric Column (Y-Axis)",
