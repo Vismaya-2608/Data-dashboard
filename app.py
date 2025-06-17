@@ -1,94 +1,108 @@
-
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 st.set_page_config(page_title="Additional Data Analysis", layout="wide")
+st.sidebar.title("📊 Additional Data Explorer")
 
-st.sidebar.title("Additional_data")
+# Sidebar main tab selection
+main_tab = st.sidebar.radio("Select View", ["Data", "📈 Chart Visualization"])
 
+# Excel paths outside
+excel_file_path = 'All_DataFrames.xlsx'
+q_summary_path = "Quick_data_summary.xlsx"
+summary_path = 'Data_Summaries.xlsx'
 
-# Read the Excel file
-Preview, Alldata, Datasummary, Charts = st.tabs(["Preview", "Quick Summary", "Data Summary", "Charts"])
+# Load sheet names once
+xls_main = pd.ExcelFile(excel_file_path)
+sheet_names_main = xls_main.sheet_names
 
-with Preview:
-  excel_file_path = 'All_DataFrames.xlsx'
-  xls = pd.ExcelFile(excel_file_path)
-  sheet_names = xls.sheet_names
-  sheet = st.selectbox("Select Data file", sheet_names)
+# ============== DATA SECTION =================
+if main_tab == "Data":
+    tab1, tab2, tab3 = st.tabs(["🔍Preview", "⚡Quick Summary", "📄 Data Summary"])
 
-  # Read selected sheet
-  df = pd.read_excel(excel_file_path, sheet_name=sheet)
+    with tab1:
+        sheet = st.selectbox("Select Data file", sheet_names_main, key="preview_data")
+        df = pd.read_excel(excel_file_path, sheet_name=sheet)
+        #st.subheader(f"🔍 Preview: {sheet}")
+        st.dataframe(df, use_container_width=True)
 
-  # Display DataFrame
-  st.dataframe(df, use_container_width=True)
-  
-with Alldata:
-  excel_file_path = "Quick_data_summary.xlsx"
-  xls = pd.ExcelFile(excel_file_path)
-  #sheet_names = xls.sheet_names
-  #sheet = st.selectbox("Select sheet", sheet_names)
+    with tab2:
+        df = pd.read_excel(q_summary_path, sheet_name=0)
+        #st.subheader("⚡ Quick Summary")
+        st.dataframe(df, use_container_width=True)
 
-  # Read selected sheet
-  df = pd.read_excel(excel_file_path, sheet_name=0)
-  #st.success(f"Showing data from '{sheet}'")
- 
-  # Display DataFrame
-  st.dataframe(df, use_container_width=True)
-  
-with Datasummary:
-  excel_file_path = 'Data_Summaries.xlsx'
-  xls = pd.ExcelFile(excel_file_path)
-  sheet_names = xls.sheet_names
-  sheet = st.selectbox("Select Data file", sheet_names)
+    with tab3:
+        xls_summary = pd.ExcelFile(summary_path)
+        sheet_names_summary = xls_summary.sheet_names
+        sheet = st.selectbox("Select Summary file", sheet_names_summary, key="summary_data")
+        df = pd.read_excel(summary_path, sheet_name=sheet)
+        #st.subheader(f"📄 Data Summary: {sheet}")
+        st.dataframe(df, use_container_width=True)
 
-  # Read selected sheet
-  df = pd.read_excel(excel_file_path, sheet_name=sheet)
+# ============== CHARTS SECTION =================
+elif main_tab == "📈 Chart Visualization":
+    sheet = st.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
+    df = pd.read_excel(excel_file_path, sheet_name=sheet)
 
-  # Display DataFrame
-  st.dataframe(df, use_container_width=True)
+    # Identify column types
+    categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
+    numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
-with Charts:
-    st.title("Categorical Distribution Over Years")
+    # Chart type selector in sidebar
+    plot_type = st.sidebar.selectbox("Select Plot Type", ["Line", "Bar"], key="plot_type")
 
-    # Step 1: Read Excel file from disk
-    excel_file_path = "Dsc_Average_Construction_Materi.xlsx"  # Adjust the path as needed
-    df = pd.read_excel(excel_file_path)
-
-    # Step 2: Show data preview
-    st.write("Data Preview:")
-    st.dataframe(df)
-
-    # Step 3: Detect 'Year' column
-    year_columns = [col for col in df.columns if 'year' in col.lower()]
-    if year_columns:
-        year_col = year_columns[0]
+    # Ensure 'year' column is present
+    if "year" not in df.columns:
+        st.error("❌ 'year' column not found in the dataset.")
     else:
-        st.error("No column with name containing 'year' found.")
-        st.stop()
+        id_cols = ['id', 'i_d', 'year','quantityar','quantityen']
 
-    # Step 4: Detect categorical columns
-    cat_columns = df.select_dtypes(include=['object', 'category']).columns.tolist()
-    if not cat_columns:
-        st.error("No categorical columns found in the dataset.")
-        st.stop()
+        if plot_type == "Line":
+            value_col = st.sidebar.selectbox(
+                "Select Numeric Column (Y-Axis)",
+                [col for col in numeric_columns if col not in id_cols],
+                key="line_y"
+            )
+            category_col = st.sidebar.selectbox(
+                "Select Category Column (Legend)",
+                categorical_columns,
+                key="line_legend"
+            )
 
-    # Step 5: Select a categorical column for analysis
-    selected_cat_col = st.selectbox("Select categorical column for Y-axis (distribution)", options=cat_columns)
+            # Aggregate the data
+            df_grouped = df.groupby(['year', category_col])[value_col].mean().reset_index()
 
-    # Step 6: Group and count occurrences
-    group_df = df.groupby([year_col, selected_cat_col]).size().reset_index(name='Count')
+            fig = px.line(
+                df_grouped.dropna(subset=["year", value_col, category_col]),
+                x="year",
+                y=value_col,
+                color=category_col,
+                markers=True,
+                title=f"{value_col} over Years by {category_col}"
+            )
 
-    # Step 7: Pivot the table for plotting
-    pivot_df = group_df.pivot(index=year_col, columns=selected_cat_col, values='Count').fillna(0)
+        else:  # Bar chart
+            df["year"] = df["year"].astype(str)
 
-    # Step 8: Plot stacked bar chart
-    st.subheader(f"Distribution of '{selected_cat_col}' Over Years")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    pivot_df.plot(kind='bar', stacked=True, ax=ax)
-    ax.set_xlabel(year_col)
-    ax.set_ylabel("Count")
-    ax.set_title(f"Distribution of {selected_cat_col} by {year_col}")
-    ax.legend(title=selected_cat_col, bbox_to_anchor=(1.05, 1), loc='upper left')
-    ax.grid(True)
-    st.pyplot(fig)
+            category_col = st.sidebar.selectbox(
+                "Select Category Column (X-Axis)",
+                categorical_columns,
+                key="bar_x"
+            )
+            
+            value_col = st.sidebar.selectbox(
+                "Select Numeric Column (Y-Axis)",
+                [col for col in numeric_columns if col not in id_cols],
+                key="bar_y"
+            )
+
+            fig = px.bar(
+                df.dropna(subset=["year", value_col, category_col]),
+                x=category_col,
+                y=value_col,
+                title=f"{value_col} by {category_col}"
+            )
+            fig.update_layout(barmode='overlay')  # Show bars overlaid (not stacked)
+
+        st.plotly_chart(fig, use_container_width=True)
