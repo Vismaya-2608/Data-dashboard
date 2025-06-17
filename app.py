@@ -9,7 +9,7 @@ st.sidebar.title("📊 Additional Data Explorer")
 main_tab = st.sidebar.radio("Select View", ["Data", "📈 Chart Visualization"])
 
 # Excel paths outside
-excel_file_path = 'All_DataFrames.xlsx'
+excel_file_path = 'All_DataFrames updated.xlsx'
 q_summary_path = "Quick_data_summary.xlsx"
 summary_path = 'Data_Summaries.xlsx'
 
