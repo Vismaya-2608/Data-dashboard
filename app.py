@@ -84,11 +84,11 @@ elif main_tab == "📈 Chart Visualization":
 
         else:  # Bar chart
             df["year"] = df["year"].astype(str)
-
             category_col = st.sidebar.selectbox(
                 "Select Category Column (X-Axis)",
-                categorical_columns,
+                categorical_columns + ['year'],  # Add 'year' explicitly if it's not auto-detected
                 key="bar_x"
+            )
             )
             
             value_col = st.sidebar.selectbox(
