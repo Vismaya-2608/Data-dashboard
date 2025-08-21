@@ -10,7 +10,7 @@ main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Explorer"])
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames_final.xlsx'
-q_summary_path = "Quick_data_summary.xlsx"
+q_summary_path = "Quick_data_summary_final.xlsx"
 summary_path = 'Data_Summaries_final.xlsx'
 
 # Load sheet names once
