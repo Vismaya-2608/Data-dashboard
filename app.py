@@ -25,21 +25,23 @@ if main_tab == "Data Inventory":
 
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
-    sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
+    #sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
     tab1, tab2, tab3 = st.tabs(["Summary", "Table", "Charts"])
 
-    with tab2:
-        df2 = pd.read_excel(excel_file_path, sheet_name=sheet)
-        # st.subheader(f"🔍 Preview: {sheet}")
-        st.dataframe(df2, use_container_width=True)
-
     with tab1:
+        sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
         xls_summary = pd.ExcelFile(summary_path)
         sheet_names_summary = xls_summary.sheet_names
         if sheet in sheet_names_summary:
             df1 = pd.read_excel(summary_path, sheet_name=sheet)
             # st.subheader(f"📄 Data Summary: {sheet}")
             st.dataframe(df1, use_container_width=True)
+
+
+    with tab2:
+        df2 = pd.read_excel(excel_file_path, sheet_name=sheet)
+        # st.subheader(f"🔍 Preview: {sheet}")
+        st.dataframe(df2, use_container_width=True)
 
     with tab3:
         df = pd.read_excel(excel_file_path, sheet_name=sheet)
