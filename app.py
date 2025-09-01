@@ -143,7 +143,6 @@ elif main_tab == "Data Explorer":
         with tab4:
             st.markdown(
             """
-            ### 📝 Data Preparation Notes
             - Macro Datasets considered for merging:  
               - GDP quarterly  
               - Producer Price Index  
