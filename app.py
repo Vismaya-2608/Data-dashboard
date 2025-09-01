@@ -25,11 +25,10 @@ if main_tab == "Data Inventory":
 
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
-    #sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
+    sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
     tab1, tab2, tab3 = st.tabs(["Summary", "Table", "Charts"])
 
     with tab1:
-        sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
         xls_summary = pd.ExcelFile(summary_path)
         sheet_names_summary = xls_summary.sheet_names
         if sheet in sheet_names_summary:
