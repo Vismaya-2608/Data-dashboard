@@ -31,7 +31,7 @@ elif main_tab == "Data Explorer":
     show_prep = st.sidebar.checkbox("Show Data Preparation Details", value=False)
 
     if show_prep:
-        st.sidebar.markdown(
+        st.markdown(
             """
             - Macro Datasets considered for merging
               -GDP quarterly
