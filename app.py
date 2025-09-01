@@ -26,24 +26,8 @@ if main_tab == "Data Inventory":
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
     sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
-    tab1, tab2, tab3 = st.tabs(["Summary", "Table", "Charts"])
-     # Sidebar toggle for data prep details
-    show_prep = st.sidebar.checkbox("Show Data Preparation Details", value=False)
-
-    if show_prep:
-        st.markdown(
-            """
-            - Macro Datasets considered for merging
-              -GDP quarterly
-              - Producer_price_index
-              - Consumer_price_index
-              - Consumer_cost_index
-              - Gold_price
-              - Oil_price
-            - Performed groupby based on year  
-            - Considered dataset for year above 2020 for merging with main data   
-            """
-        )
+    tab1, tab2, tab3, tab4 = st.tabs(["Summary", "Table", "Charts", "Notes"])
+        
 
     with tab1:
         xls_summary = pd.ExcelFile(summary_path)
@@ -155,3 +139,19 @@ elif main_tab == "Data Explorer":
             )
 
             st.plotly_chart(fig, use_container_width=True)
+                
+        with tab4:
+            st.markdown(
+            """
+            ### 📝 Data Preparation Notes
+            - Macro Datasets considered for merging:  
+              - GDP quarterly  
+              - Producer Price Index  
+              - Consumer Price Index  
+              - Consumer Cost Index  
+              - Gold Price  
+              - Oil Price  
+            - Performed **groupby** based on `year`  
+            - Considered dataset for **year > 2020** for merging with main data  
+            """
+            )
