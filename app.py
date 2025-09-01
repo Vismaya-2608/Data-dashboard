@@ -27,6 +27,23 @@ if main_tab == "Data Inventory":
 elif main_tab == "Data Explorer":
     sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
     tab1, tab2, tab3 = st.tabs(["Summary", "Table", "Charts"])
+     # Sidebar toggle for data prep details
+    show_prep = st.sidebar.checkbox("Show Data Preparation Details", value=False)
+
+    if show_prep:
+        st.sidebar.markdown(
+            """
+            - Macro Datasets considered for merging
+              -GDP quarterly
+              - Producer_price_index
+              - Consumer_price_index
+              - Consumer_cost_index
+              - Gold_price
+              - Oil_price
+            - Performed groupby based on year  
+            - Considered dataset for year above 2020 for merging with main data   
+            """
+        )
 
     with tab1:
         xls_summary = pd.ExcelFile(summary_path)
