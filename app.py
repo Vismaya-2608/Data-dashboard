@@ -147,6 +147,9 @@ elif main_tab == "Data Explorer":
             )
 
 elif main_tab == "Data Summary":
+    xls_summary = pd.ExcelFile(summary_path)
+    sheet_names_summary = xls_summary.sheet_names
+    
     sheet = st.selectbox("Select Data Frame", sheet_names_summary, key="chart_sheet")
     tab1 = st.tabs(["Summary"])
         
