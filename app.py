@@ -166,7 +166,19 @@ elif main_tab == "Data Explorer":
 # ============== DATA SECTION =================
 elif main_tab == "Merged Dataset":
          tab1, tab2,  = st.tabs(["Preview", "Summary"])
-
+        
+    with tab2:
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric(label="Number Of Columns", value = 46)
+            with col2:
+                st.metric(label="Total Records", value = "1,424,588")
+            with col3:
+                st.metric(label="Start Date(Instance_date)", value="1966-01-18")
+            with col4:
+                st.metric(label="End Date(Instance_date)", value="2025-04-03")
+        
+        
         
                 
 
