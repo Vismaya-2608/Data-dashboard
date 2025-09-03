@@ -6,7 +6,7 @@ st.set_page_config(page_title="Additional Data Analysis", layout="wide")
 st.sidebar.title("DUBAI Econometrics")
 
 # Sidebar main tab selection
-main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Explorer"])
+main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Explorer", "Data Summary"])
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames_final.xlsx'
@@ -26,24 +26,15 @@ if main_tab == "Data Inventory":
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
     sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
-    tab1, tab2, tab3, tab4 = st.tabs(["Summary", "Table", "Charts", "Notes"])
-        
+    tab1, tab2, tab3,  = st.tabs(["Table", "Charts", "Notes"])
+
 
     with tab1:
-        xls_summary = pd.ExcelFile(summary_path)
-        sheet_names_summary = xls_summary.sheet_names
-        if sheet in sheet_names_summary:
-            df1 = pd.read_excel(summary_path, sheet_name=sheet)
-            # st.subheader(f"📄 Data Summary: {sheet}")
-            st.dataframe(df1, use_container_width=True)
-
-
-    with tab2:
         df2 = pd.read_excel(excel_file_path, sheet_name=sheet)
         # st.subheader(f"🔍 Preview: {sheet}")
         st.dataframe(df2, use_container_width=True)
 
-    with tab3:
+    with tab2:
         df = pd.read_excel(excel_file_path, sheet_name=sheet)
         # Identify column types
         categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
@@ -140,7 +131,7 @@ elif main_tab == "Data Explorer":
 
             st.plotly_chart(fig, use_container_width=True)
                 
-        with tab4:
+        with tab3:
             st.markdown(
             """
             - Macro Datasets considered for merging:  
@@ -154,3 +145,15 @@ elif main_tab == "Data Explorer":
             - Considered dataset for **year > 2020** for merging with main data  
             """
             )
+
+elif main_tab == "Data Summary"
+    sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
+    tab1 = st.tabs(["Summary"])
+        
+    with tab1:
+        xls_summary = pd.ExcelFile(summary_path)
+        sheet_names_summary = xls_summary.sheet_names
+        if sheet in sheet_names_summary:
+            df1 = pd.read_excel(summary_path, sheet_name=sheet)
+            # st.subheader(f"📄 Data Summary: {sheet}")
+            st.dataframe(df1, use_container_width=True)
