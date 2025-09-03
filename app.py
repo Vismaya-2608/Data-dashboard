@@ -43,12 +43,12 @@ elif main_tab == "Data Summary":
         st.markdown(
         """
         - Macro Datasets considered for merging:  
-         - GDP quarterly  
-         - Producer Price Index  
-         - Consumer Price Index  
-         - Consumer Cost Index  
-         - Gold Price  
-         - Oil Price  
+           - GDP quarterly  
+           - Producer Price Index  
+           - Consumer Price Index  
+           - Consumer Cost Index  
+           - Gold Price  
+           - Oil Price  
         - Performed **groupby** based on `year`  
         - Considered dataset for **year > 2020** for merging with main data  
         """
