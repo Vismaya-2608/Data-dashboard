@@ -151,7 +151,7 @@ elif main_tab == "Data Summary":
     sheet_names_summary = xls_summary.sheet_names
     
     sheet = st.selectbox("Select Data Frame", sheet_names_summary, key="chart_sheet")
-    tab1 = st.tabs(["Summary"])
+    tab1, = st.tabs(["Summary"])
         
     with tab1:
         xls_summary = pd.ExcelFile(summary_path)
