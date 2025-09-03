@@ -146,7 +146,7 @@ elif main_tab == "Data Explorer":
             """
             )
 
-elif main_tab == "Data Summary"
+elif main_tab == "Data Summary":
     sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
     tab1 = st.tabs(["Summary"])
         
