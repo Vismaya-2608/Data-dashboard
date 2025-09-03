@@ -166,7 +166,6 @@ elif main_tab == "Data Explorer":
 # ============== DATA SECTION =================
 elif main_tab == "Merged Dataset":
          tab1, tab2,  = st.tabs(["Preview", "Summary"])
-        
     with tab2:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
