@@ -22,7 +22,8 @@ if main_tab == "Data Inventory":
         df = pd.read_excel(q_summary_path, sheet_name=0)
         #st.subheader("⚡ Quick Summary")
         st.dataframe(df, use_container_width=True)
-
+        
+# ============== DATA SECTION =================
 elif main_tab == "Data Summary":
     xls_summary = pd.ExcelFile(summary_path)
     sheet_names_summary = xls_summary.sheet_names
@@ -160,5 +161,11 @@ elif main_tab == "Data Explorer":
             - Considered dataset for **year > 2020** for merging with main data  
             """
             )
+                
+# ============== DATA SECTION =================
+elif main_tab == "Merged Dataset":
+         tab1, tab2,  = st.tabs(["Preview", "Summary"])
 
+        with tab1:
+                
 
