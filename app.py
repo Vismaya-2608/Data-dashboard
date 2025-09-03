@@ -6,7 +6,7 @@ st.set_page_config(page_title="Additional Data Analysis", layout="wide")
 st.sidebar.title("DUBAI Econometrics")
 
 # Sidebar main tab selection
-main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Explorer", "Data Summary"])
+main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Explorer", "Data Summary","Merged Dataset","Correlation"])
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames_final.xlsx'
@@ -22,6 +22,21 @@ if main_tab == "Data Inventory":
         df = pd.read_excel(q_summary_path, sheet_name=0)
         #st.subheader("⚡ Quick Summary")
         st.dataframe(df, use_container_width=True)
+
+elif main_tab == "Data Summary":
+    xls_summary = pd.ExcelFile(summary_path)
+    sheet_names_summary = xls_summary.sheet_names
+    
+    sheet = st.selectbox("Select Data Frame", sheet_names_summary, key="chart_sheet")
+    tab1, = st.tabs(["Summary"])
+        
+    with tab1:
+        xls_summary = pd.ExcelFile(summary_path)
+        sheet_names_summary = xls_summary.sheet_names
+        if sheet in sheet_names_summary:
+            df1 = pd.read_excel(summary_path, sheet_name=sheet)
+            # st.subheader(f"📄 Data Summary: {sheet}")
+            st.dataframe(df1, use_container_width=True)
 
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
@@ -146,17 +161,4 @@ elif main_tab == "Data Explorer":
             """
             )
 
-elif main_tab == "Data Summary":
-    xls_summary = pd.ExcelFile(summary_path)
-    sheet_names_summary = xls_summary.sheet_names
-    
-    sheet = st.selectbox("Select Data Frame", sheet_names_summary, key="chart_sheet")
-    tab1, = st.tabs(["Summary"])
-        
-    with tab1:
-        xls_summary = pd.ExcelFile(summary_path)
-        sheet_names_summary = xls_summary.sheet_names
-        if sheet in sheet_names_summary:
-            df1 = pd.read_excel(summary_path, sheet_name=sheet)
-            # st.subheader(f"📄 Data Summary: {sheet}")
-            st.dataframe(df1, use_container_width=True)
+
