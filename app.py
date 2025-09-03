@@ -166,6 +166,6 @@ elif main_tab == "Data Explorer":
 elif main_tab == "Merged Dataset":
          tab1, tab2,  = st.tabs(["Preview", "Summary"])
 
-        with tab1:
+        
                 
 
