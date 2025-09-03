@@ -29,7 +29,7 @@ elif main_tab == "Data Summary":
     sheet_names_summary = xls_summary.sheet_names
     
     sheet = st.selectbox("Select Data Frame", sheet_names_summary, key="chart_sheet")
-    tab1, = st.tabs(["Summary"])
+    tab1,tab2 = st.tabs(["Summary","Notes"])
         
     with tab1:
         xls_summary = pd.ExcelFile(summary_path)
@@ -39,10 +39,25 @@ elif main_tab == "Data Summary":
             # st.subheader(f"📄 Data Summary: {sheet}")
             st.dataframe(df1, use_container_width=True)
 
+    with tab2:
+        st.markdown(
+        """
+        - Macro Datasets considered for merging:  
+        - GDP quarterly  
+        - Producer Price Index  
+        - Consumer Price Index  
+        - Consumer Cost Index  
+        - Gold Price  
+        - Oil Price  
+        - Performed **groupby** based on `year`  
+        - Considered dataset for **year > 2020** for merging with main data  
+        """
+        )
+
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
     sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
-    tab1, tab2, tab3,  = st.tabs(["Table", "Charts", "Notes"])
+    tab1, tab2,  = st.tabs(["Table", "Charts"])
 
 
     with tab1:
@@ -147,21 +162,7 @@ elif main_tab == "Data Explorer":
 
             st.plotly_chart(fig, use_container_width=True)
                 
-        with tab3:
-            st.markdown(
-            """
-            - Macro Datasets considered for merging:  
-              - GDP quarterly  
-              - Producer Price Index  
-              - Consumer Price Index  
-              - Consumer Cost Index  
-              - Gold Price  
-              - Oil Price  
-            - Performed **groupby** based on `year`  
-            - Considered dataset for **year > 2020** for merging with main data  
-            """
-            )
-                
+         
 # ============== DATA SECTION =================
 elif main_tab == "Merged Dataset":
          tab1, tab2,  = st.tabs(["Preview", "Summary"])
