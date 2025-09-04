@@ -12,7 +12,8 @@ main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Summary", "Data Exp
 excel_file_path = 'All_DataFrames_final.xlsx'
 q_summary_path = "Quick_data_summary_final.xlsx"
 summary_path = 'Data_Summaries_final.xlsx'
-
+sample = ""
+summary = ""
 # Load sheet names once
 xls_main = pd.ExcelFile(excel_file_path)
 sheet_names_main = xls_main.sheet_names
