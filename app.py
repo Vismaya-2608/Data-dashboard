@@ -13,7 +13,8 @@ excel_file_path = 'All_DataFrames_final.xlsx'
 q_summary_path = "Quick_data_summary_final.xlsx"
 summary_path = 'Data_Summaries_final.xlsx'
 sample = ""
-summary = ""
+summary = "macro_dataset_summary_combined.xlsx"
+
 # Load sheet names once
 xls_main = pd.ExcelFile(excel_file_path)
 sheet_names_main = xls_main.sheet_names
@@ -182,6 +183,16 @@ elif main_tab == "Merged Dataset":
 
         with col4:
             st.metric(label="End Date (Instance_date)", value="2025-04-03")
+                
+        summary_df = pd.read_excel(summary)
+        # Format all numeric columns with commas
+        for col in summary_df.select_dtypes(include='number').columns:
+            summary_df[col] = summary_df[col].apply(lambda x: f"{x:,.0f}" if pd.notnull(x) else x)
+    
+        summary_df.index = range(1, len(summary_df) + 1)
+        #summary_df.rename(columns={'No_of_units': 'Num_of_Unique_values'}, inplace=True)
+        #summary_df = summary_df.drop(columns = ["S.no", "Level"])
+        st.dataframe(summary_df)
 
         
         
