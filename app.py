@@ -173,16 +173,16 @@ elif main_tab == "Merged Dataset":
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
-            st.metric(label="Number Of Columns", value=46)
+            st.metric(label="Number Of Columns", value=55)
 
         with col2:
-            st.metric(label="Total Records", value="1,424,588")
+            st.metric(label="Total Records", value="1,151,290")
 
         with col3:
-            st.metric(label="Start Date (Instance_date)", value="1966-01-18")
+            st.metric(label="Start Date (Instance_Year)", value="1967")
 
         with col4:
-            st.metric(label="End Date (Instance_date)", value="2025-04-03")
+            st.metric(label="End Date (Instance_Year)", value="2025")
                 
         summary_df = pd.read_excel(summary)
         # Format all numeric columns with commas
