@@ -59,7 +59,7 @@ elif main_tab == "Data Summary":
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
 
-    #sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
+    sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
     main_tabs = st.tabs(["Table","Charts"])
 
     with main_tabs[0]:
