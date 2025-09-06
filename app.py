@@ -70,10 +70,10 @@ elif main_tab == "Data Explorer":
         st.dataframe(df2, use_container_width=True)
 
     with main_tabs[1]:
-         Dimensions_tab, Metics_tab, = st.tabs(["Dimensions","Metrics"])
-         with Dimensions_tab:
-        df = pd.read_excel(excel_file_path, sheet_name=sheet)
-        # Identify column types
+            Dimensions_tab, Metics_tab, = st.tabs(["Dimensions","Metrics"])
+            with Dimensions_tab:
+                    df = pd.read_excel(excel_file_path, sheet_name=sheet)
+                    # Identify column types
         categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
         numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
