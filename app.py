@@ -11,7 +11,7 @@ main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Summary", "Data Exp
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames_final.xlsx'
-excel_file_path1 = 'All_Dataframes_final_oilGold_removed.xlsx'
+excel_file_path1 = 'All_DataFrames_final_oilGold_removed.xlsx'
 q_summary_path = "Quick_data_summary_final.xlsx"
 summary_path = 'Data_Summaries_final.xlsx'
 summary = "macro_dataset_summary_combined_above_2020.xlsx"
