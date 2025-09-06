@@ -59,11 +59,12 @@ elif main_tab == "Data Summary":
         )
 
 # ============== CHARTS SECTION =================
+
+
+elif main_tab == "Data Explorer":
 # Load sheet names once
 xls_main1 = pd.ExcelFile(excel_file_path1)
 sheet_names_main1 = xls_main1.sheet_names
-
-elif main_tab == "Data Explorer":
 
     #sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
     main_tabs = st.tabs(["Table","Charts"])
