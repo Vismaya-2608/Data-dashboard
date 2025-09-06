@@ -138,7 +138,7 @@ elif main_tab == "Data Explorer":
             st.warning("⚠️ Charts not available because the Excel file is missing.")
 \
         with Metics_tab:
-            metrics_file_path = "Only Gold and oil.xlsx"  # 👈 change this to your file
+            metrics_file_path = "metrics_dataset.xlsx"  # 👈 change to your file
             if os.path.exists(metrics_file_path):
                 sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
                 sheet_metrics = st.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
@@ -156,8 +156,8 @@ elif main_tab == "Data Explorer":
                         key="metrics_y"
                     )
 
-                    # Aggregate by year
-                    df_grouped = df_metrics.groupby("year")[value_col].mean().reset_index()
+                    # ✅ Fix: as_index=False avoids duplicate 'year'
+                    df_grouped = df_metrics.groupby("year", as_index=False)[value_col].mean()
 
                     # Plot time series (no legend needed)
                     fig = px.line(
@@ -174,6 +174,7 @@ elif main_tab == "Data Explorer":
 
             else:
                 st.error(f"❌ Metrics file not found: {metrics_file_path}")
+
 
                 
          
