@@ -169,7 +169,7 @@ elif main_tab == "Data Explorer":
 elif main_tab == "Merged Dataset":
     tab1 = st.tabs(["Summary"])  # removed extra comma
     
-    with tab2:
+    with tab1:
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
