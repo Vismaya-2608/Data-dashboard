@@ -10,7 +10,7 @@ main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Summary", "Data Exp
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames_final.xlsx'
-excel_file_path1 = ''
+excel_file_path1 = 'All_Dataframes_final_oilGold_removed.xlsx'
 q_summary_path = "Quick_data_summary_final.xlsx"
 summary_path = 'Data_Summaries_final.xlsx'
 sample = ""
@@ -20,8 +20,8 @@ summary = "macro_dataset_summary_combined_above_2020.xlsx"
 xls_main = pd.ExcelFile(excel_file_path)
 sheet_names_main = xls_main.sheet_names
 
-xls_main1 = pd.ExcelFile()
-sheet_name_main1 = xls_main1.sheet_name
+xls_main1 = pd.ExcelFile(excel_file_path1)
+sheet_names_main1 = xls_main1.sheet_names
 
 # ============== DATA SECTION =================
 if main_tab == "Data Inventory":
@@ -73,7 +73,7 @@ elif main_tab == "Data Explorer":
         st.dataframe(df2, use_container_width=True)
 
     with main_tabs[1]:
-        sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
+        sheet = st.selectbox("Select Data Frame", sheet_names_main1, key="chart_sheet")
         Dimensions_tab, Metics_tab = st.tabs(["Dimensions","Metrics"])
         
         with Dimensions_tab:
