@@ -13,15 +13,13 @@ excel_file_path = 'All_DataFrames_final.xlsx'
 excel_file_path1 = 'All_Dataframes_final_oilGold_removed.xlsx'
 q_summary_path = "Quick_data_summary_final.xlsx"
 summary_path = 'Data_Summaries_final.xlsx'
-sample = ""
 summary = "macro_dataset_summary_combined_above_2020.xlsx"
 
 # Load sheet names once
 xls_main = pd.ExcelFile(excel_file_path)
 sheet_names_main = xls_main.sheet_names
 
-xls_main1 = pd.ExcelFile(excel_file_path1)
-sheet_names_main1 = xls_main1.sheet_names
+
 
 # ============== DATA SECTION =================
 if main_tab == "Data Inventory":
@@ -61,6 +59,10 @@ elif main_tab == "Data Summary":
         )
 
 # ============== CHARTS SECTION =================
+# Load sheet names once
+xls_main1 = pd.ExcelFile(excel_file_path1)
+sheet_names_main1 = xls_main1.sheet_names
+
 elif main_tab == "Data Explorer":
 
     #sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
