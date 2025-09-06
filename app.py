@@ -58,16 +58,20 @@ elif main_tab == "Data Summary":
 
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
-    sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
-    tab1, tab2,  = st.tabs(["Table", "Charts"])
+
+        
+    #sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet")
+    main_tabs = st.tabs(["Table","Charts"])
 
 
-    with tab1:
+    with main_tabs[0]:
         df2 = pd.read_excel(excel_file_path, sheet_name=sheet)
         # st.subheader(f"🔍 Preview: {sheet}")
         st.dataframe(df2, use_container_width=True)
 
-    with tab2:
+    with main_tabs[1]:
+        Dimensions_tab, Metics_tab, = st.tabs(["Dimensions","Metrics"])
+        with Dimensions_tab:
         df = pd.read_excel(excel_file_path, sheet_name=sheet)
         # Identify column types
         categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
