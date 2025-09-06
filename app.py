@@ -138,7 +138,7 @@ elif main_tab == "Data Explorer":
             st.warning("⚠️ Charts not available because the Excel file is missing.")
 \
         with Metics_tab:
-            metrics_file_path = "metrics_dataset.xlsx"  # 👈 change to your file
+            metrics_file_path = "Only Gold and oil.xlsx"  # 👈 change to your file
             if os.path.exists(metrics_file_path):
                 sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
                 sheet_metrics = st.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
