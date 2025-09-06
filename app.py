@@ -6,7 +6,7 @@ st.set_page_config(page_title="Additional Data Analysis", layout="wide")
 st.sidebar.title("DUBAI Econometrics")
 
 # Sidebar main tab selection
-main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Summary", "Data Explorer", "Merged Dataset", "Correlation"])
+main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Summary", "Data Explorer", "Merged Dataset"])
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames_final.xlsx'
