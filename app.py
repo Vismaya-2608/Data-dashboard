@@ -10,6 +10,7 @@ main_tab = st.sidebar.radio("View", ["Data Inventory", "Data Summary", "Data Exp
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames_final.xlsx'
+excel_file_path1 = ''
 q_summary_path = "Quick_data_summary_final.xlsx"
 summary_path = 'Data_Summaries_final.xlsx'
 sample = ""
@@ -18,6 +19,9 @@ summary = "macro_dataset_summary_combined_above_2020.xlsx"
 # Load sheet names once
 xls_main = pd.ExcelFile(excel_file_path)
 sheet_names_main = xls_main.sheet_names
+
+xls_main1 = pd.ExcelFile()
+sheet_name_main1 = xls_main1.sheet_name
 
 # ============== DATA SECTION =================
 if main_tab == "Data Inventory":
