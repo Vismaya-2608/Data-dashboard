@@ -176,10 +176,10 @@ elif main_tab == "Merged Dataset":
             st.metric(label="Number Of Columns", value=55)
 
         with col2:
-            st.metric(label="Total Records", value="1,151,290")
+            st.metric(label="Total Records", value="549,194")
 
         with col3:
-            st.metric(label="Start Date (Instance_Year)", value="1967-11-28")
+            st.metric(label="Start Date (Instance_Year)", value="2021-01-01")
 
         with col4:
             st.metric(label="End Date (Instance_Year)", value="2025-04-03")
