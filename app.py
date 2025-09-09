@@ -140,37 +140,37 @@ elif main_tab == "Data Explorer":
 
 
         # 👇 Sibling block, not nested!
-        with Metrics_tab:  # make sure variable name matches how you defined it
-            metrics_file_path = "Only Gold and oil.xlsx"
+                with Metrics_tab:  # make sure variable name matches how you defined it
+                    metrics_file_path = "Only Gold and oil.xlsx"
 
-            if os.path.exists(metrics_file_path):
-                sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
+                    if os.path.exists(metrics_file_path):
+                        sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
 
-                # 👇 Sidebar for metrics tab
-                sheet_metrics = st.sidebar.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
-                df_metrics = pd.read_excel(metrics_file_path, sheet_name=sheet_metrics)
+                        # 👇 Sidebar for metrics tab
+                        sheet_metrics = st.sidebar.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
+                        df_metrics = pd.read_excel(metrics_file_path, sheet_name=sheet_metrics)
 
-                numeric_columns = df_metrics.select_dtypes(include=['number']).columns.tolist()
+                        numeric_columns = df_metrics.select_dtypes(include=['number']).columns.tolist()
 
-                if "year" not in df_metrics.columns:
-                    st.error("❌ 'year' column not found in the metrics dataset.")
-                else:
-                    # 👇 Sidebar again
-                    value_col = st.sidebar.selectbox("Select Metric (Y-Axis)", numeric_columns, key="metrics_y")
+                        if "year" not in df_metrics.columns:
+                            st.error("❌ 'year' column not found in the metrics dataset.")
+                        else:
+                            # 👇 Sidebar again
+                            value_col = st.sidebar.selectbox("Select Metric (Y-Axis)", numeric_columns, key="metrics_y")
 
-                    df_grouped = df_metrics.groupby("year", as_index=False)[value_col].mean()
+                            df_grouped = df_metrics.groupby("year", as_index=False)[value_col].mean()
 
-                    fig = px.line(
-                        df_grouped.dropna(subset=["year", value_col]),
-                        x="year",
-                        y=value_col,
-                        markers=True,
-                        title=f"{value_col} over Years"
-                    )
-                    fig.update_layout(showlegend=False)
-                    st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.error(f"❌ Metrics file not found: {metrics_file_path}")
+                            fig = px.line(
+                                df_grouped.dropna(subset=["year", value_col]),
+                                x="year",
+                                y=value_col,
+                                markers=True,
+                                title=f"{value_col} over Years"
+                            )
+                            fig.update_layout(showlegend=False)
+                            st.plotly_chart(fig, use_container_width=True)
+                    else:
+                        st.error(f"❌ Metrics file not found: {metrics_file_path}")
 
  
         
