@@ -147,7 +147,7 @@ elif main_tab == "Data Explorer":
                         sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
 
                         # 👇 Sidebar for metrics tab
-                        sheet_metrics = st.sidebar.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
+                        sheet_metrics = st.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
                         df_metrics = pd.read_excel(metrics_file_path, sheet_name=sheet_metrics)
 
                         numeric_columns = df_metrics.select_dtypes(include=['number']).columns.tolist()
