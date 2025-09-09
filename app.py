@@ -80,7 +80,7 @@ elif main_tab == "Data Explorer":
     with main_tabs[1]:
      if sheet_names_main1:
          # Create both tabs
-         Dimensions_tab, Metics_tab = st.tabs(["Dimensions","Metrics"])
+         Dimensions_tab, Metrics_tab = st.tabs(["Dimensions","Metrics"])
 
         # ================= Dimensions Tab =================
          with Dimensions_tab:
@@ -143,8 +143,8 @@ elif main_tab == "Data Explorer":
                 with Metrics_tab:  # make sure variable name matches how you defined it
                     metrics_file_path = "Only Gold and oil.xlsx"
 
-                    if os.path.exists(metrics_file_path):
-                        sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
+                     if os.path.exists(metrics_file_path):
+                         sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
 
                         # 👇 Sidebar for metrics tab
                         sheet_metrics = st.sidebar.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
