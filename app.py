@@ -140,13 +140,13 @@ elif main_tab == "Data Explorer":
 
 
         # 👇 Sibling block, not nested!
-                with Metrics_tab:  # make sure variable name matches how you defined it
+                with Metrics_tab:  # make sure spelling matches
                     metrics_file_path = "Only Gold and oil.xlsx"
 
                     if os.path.exists(metrics_file_path):
                         sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
 
-                        # 👇 Sidebar for metrics tab
+                        # File selector can stay in main tab area (not sidebar)
                         sheet_metrics = st.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
                         df_metrics = pd.read_excel(metrics_file_path, sheet_name=sheet_metrics)
 
@@ -155,7 +155,7 @@ elif main_tab == "Data Explorer":
                         if "year" not in df_metrics.columns:
                             st.error("❌ 'year' column not found in the metrics dataset.")
                         else:
-                            # 👇 Sidebar again
+                            # ✅ Only Y-Axis in sidebar (no legend/dimension selector)
                             value_col = st.sidebar.selectbox("Select Metric (Y-Axis)", numeric_columns, key="metrics_y")
 
                             df_grouped = df_metrics.groupby("year", as_index=False)[value_col].mean()
