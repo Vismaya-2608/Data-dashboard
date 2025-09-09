@@ -143,8 +143,8 @@ elif main_tab == "Data Explorer":
                 with Metrics_tab:  # make sure variable name matches how you defined it
                     metrics_file_path = "Only Gold and oil.xlsx"
 
-                     if os.path.exists(metrics_file_path):
-                         sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
+                    if os.path.exists(metrics_file_path):
+                        sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
 
                         # 👇 Sidebar for metrics tab
                         sheet_metrics = st.sidebar.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
