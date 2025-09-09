@@ -139,9 +139,9 @@ elif main_tab == "Data Explorer":
                  st.plotly_chart(fig, use_container_width=True)
 
          # ================= Metrics Tab =================
-        with Metics_tab:
+        with Metrics_tab:
             metrics_file_path = "Only Gold and oil.xlsx"
-            if os.path.exists(metrics_file_path):
+                    if os.path.exists(metrics_file_path):
                 sheet_names_metrics = pd.ExcelFile(metrics_file_path).sheet_names
                 # 👇 Sidebar for metrics tab
                 sheet_metrics = st.sidebar.selectbox("Select Metrics Data Frame", sheet_names_metrics, key="metrics_sheet")
@@ -168,6 +168,8 @@ elif main_tab == "Data Explorer":
                     st.plotly_chart(fig, use_container_width=True)
             else:
                 st.error(f"❌ Metrics file not found: {metrics_file_path}")
+
+        
 
                 
          
