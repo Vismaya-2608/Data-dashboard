@@ -61,7 +61,7 @@ elif main_tab == "Data Summary":
 
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
-    # Check if file exists before trying to load
+    # ✅ Check if file exists before trying to load
     if os.path.exists(excel_file_path1):
         xls_main1 = pd.ExcelFile(excel_file_path1)
         sheet_names_main1 = xls_main1.sheet_names
@@ -69,7 +69,8 @@ elif main_tab == "Data Explorer":
         st.error(f"❌ File not found: {excel_file_path1}")
         sheet_names_main1 = []
 
-    main_tabs = st.tabs(["Table","Charts"])
+    # Tabs inside Data Explorer
+    main_tabs = st.tabs(["Table", "Charts"])
 
     # ================== Table Tab ==================
     with main_tabs[0]:
@@ -81,7 +82,7 @@ elif main_tab == "Data Explorer":
     with main_tabs[1]:
         if sheet_names_main1:
             # Create both tabs inside Charts
-            Dimensions_tab, Metrics_tab = st.tabs(["Dimensions","Metrics"])
+            Dimensions_tab, Metrics_tab = st.tabs(["Dimensions", "Metrics"])
 
             # ========== Dimensions Tab ==========
             with Dimensions_tab:
@@ -91,21 +92,34 @@ elif main_tab == "Data Explorer":
                 categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
                 numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
-                show_legend = st.checkbox("Show Legend", value=True)
-
                 if "year" not in df.columns:
                     st.error("❌ 'year' column not found in the dataset.")
                 else:
-                    # ✅ Sidebar options ONLY in Dimensions tab
-                    plot_type = st.sidebar.selectbox("Select Plot Type", ["Time Series", "Distribution"], key="plot_type")
-                    id_cols = ['id', 'i_d', 'year', 'quantityar', 'quantityen']
+                    # ✅ Sidebar for Dimensions only
+                    with st.sidebar:
+                        st.subheader("📊 Dimensions Settings")
+                        plot_type = st.selectbox("Select Plot Type", ["Time Series", "Distribution"], key="plot_type")
 
+                        id_cols = ['id', 'i_d', 'year', 'quantityar', 'quantityen']
+
+                        if plot_type == "Time Series":
+                            category_col = st.selectbox("Select Dimensions (Legend)", categorical_columns, key="line_legend")
+                            value_col = st.selectbox(
+                                "Select Metrics (Y-Axis)",
+                                [col for col in numeric_columns if col not in id_cols],
+                                key="line_y"
+                            )
+                        else:
+                            category_col = st.selectbox("Select Dimension (X-Axis)", categorical_columns, key="bar_x")
+                            value_col = st.selectbox(
+                                "Select Metrics (Y-Axis)",
+                                [col for col in numeric_columns if col not in id_cols],
+                                key="bar_y"
+                            )
+
+                    # Build plots after sidebar selections
                     if plot_type == "Time Series":
-                        category_col = st.sidebar.selectbox("Select Dimensions (Legend)", categorical_columns, key="line_legend")
-                        value_col = st.sidebar.selectbox("Select Metrics (Y-Axis)", [col for col in numeric_columns if col not in id_cols], key="line_y")
-
                         df_grouped = df.groupby(['year', category_col])[value_col].mean().reset_index()
-
                         fig = px.line(
                             df_grouped.dropna(subset=["year", value_col, category_col]),
                             x="year",
@@ -116,9 +130,6 @@ elif main_tab == "Data Explorer":
                         )
                     else:
                         df["year"] = df["year"].astype(str)
-                        category_col = st.sidebar.selectbox("Select Dimension (X-Axis)", categorical_columns, key="bar_x")
-                        value_col = st.sidebar.selectbox("Select Metrics (Y-Axis)", [col for col in numeric_columns if col not in id_cols], key="bar_y")
-
                         total_df = df.groupby(category_col)[value_col].sum().reset_index()
                         total_df.rename(columns={value_col: "total_value"}, inplace=True)
                         df = df.merge(total_df, on=category_col, how='left')
@@ -134,7 +145,7 @@ elif main_tab == "Data Explorer":
 
                     fig.update_layout(
                         xaxis=dict(tickangle=45),
-                        showlegend=show_legend,
+                        showlegend=True,
                         legend=dict(orientation="v", yanchor="top", y=1.1, xanchor="left", x=1.02)
                     )
                     st.plotly_chart(fig, use_container_width=True)
@@ -153,8 +164,10 @@ elif main_tab == "Data Explorer":
                     if "year" not in df_metrics.columns:
                         st.error("❌ 'year' column not found in the metrics dataset.")
                     else:
-                        # ✅ Sidebar option ONLY for Y-Axis
-                        value_col = st.sidebar.selectbox("Select Metric (Y-Axis)", numeric_columns, key="metrics_y")
+                        # ✅ Sidebar for Metrics only
+                        with st.sidebar:
+                            st.subheader("📈 Metrics Settings")
+                            value_col = st.selectbox("Select Metric (Y-Axis)", numeric_columns, key="metrics_y")
 
                         df_grouped = df_metrics.groupby("year", as_index=False)[value_col].mean()
 
@@ -170,8 +183,6 @@ elif main_tab == "Data Explorer":
                 else:
                     st.error(f"❌ Metrics file not found: {metrics_file_path}")
 
- 
-        
 
                 
          
