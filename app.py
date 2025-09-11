@@ -69,11 +69,17 @@ elif main_tab == "Data Explorer":
         st.error(f"❌ File not found: {excel_file_path1}")
         sheet_names_main1 = []
 
+    # Sidebar placeholder (will be populated conditionally)
+    sidebar_placeholder = st.sidebar.empty()
+
     # Tabs inside Data Explorer
     main_tabs = st.tabs(["Table", "Charts"])
 
     # ================== Table Tab ==================
     with main_tabs[0]:
+        # ❌ Clear sidebar for Table tab
+        sidebar_placeholder.empty()
+
         sheet = st.selectbox("Select Data Frame", sheet_names_main, key="chart_sheet_table")
         df2 = pd.read_excel(excel_file_path, sheet_name=sheet)
         st.dataframe(df2, use_container_width=True)
@@ -95,8 +101,8 @@ elif main_tab == "Data Explorer":
                 if "year" not in df.columns:
                     st.error("❌ 'year' column not found in the dataset.")
                 else:
-                    # ✅ Sidebar for Dimensions only
-                    with st.sidebar:
+                    # ✅ Sidebar only for Dimensions
+                    with sidebar_placeholder.container():
                         st.subheader("📊 Dimensions Settings")
                         plot_type = st.selectbox("Select Plot Type", ["Time Series", "Distribution"], key="plot_type")
 
@@ -117,7 +123,7 @@ elif main_tab == "Data Explorer":
                                 key="bar_y"
                             )
 
-                    # Build plots after sidebar selections
+                    # Build plots
                     if plot_type == "Time Series":
                         df_grouped = df.groupby(['year', category_col])[value_col].mean().reset_index()
                         fig = px.line(
@@ -143,11 +149,6 @@ elif main_tab == "Data Explorer":
                             hover_data={"total_value": True, value_col: True, "year": True}
                         )
 
-                    fig.update_layout(
-                        xaxis=dict(tickangle=45),
-                        showlegend=True,
-                        legend=dict(orientation="v", yanchor="top", y=1.1, xanchor="left", x=1.02)
-                    )
                     st.plotly_chart(fig, use_container_width=True)
 
             # ========== Metrics Tab ==========
@@ -164,8 +165,8 @@ elif main_tab == "Data Explorer":
                     if "year" not in df_metrics.columns:
                         st.error("❌ 'year' column not found in the metrics dataset.")
                     else:
-                        # ✅ Sidebar for Metrics only
-                        with st.sidebar:
+                        # ✅ Sidebar only for Metrics
+                        with sidebar_placeholder.container():
                             st.subheader("📈 Metrics Settings")
                             value_col = st.selectbox("Select Metric (Y-Axis)", numeric_columns, key="metrics_y")
 
@@ -178,11 +179,9 @@ elif main_tab == "Data Explorer":
                             markers=True,
                             title=f"{value_col} over Years"
                         )
-                        fig.update_layout(showlegend=False)
                         st.plotly_chart(fig, use_container_width=True)
                 else:
                     st.error(f"❌ Metrics file not found: {metrics_file_path}")
-
 
                 
          
